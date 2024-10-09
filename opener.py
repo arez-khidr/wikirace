@@ -82,6 +82,7 @@ def traverse(current_node, graph):
             graph.add_edge(edge)
             # Recursively traverse the neighbor
             traverse(neighbor, graph)
+            print("hi there")
 
     
     
