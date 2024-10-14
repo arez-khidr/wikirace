@@ -3,8 +3,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 import spacy
 
 def greedy_links(current_node, target_node):
-    #
-
     #get a list of neighbors
     neighbors = current_node.neighbors
 
