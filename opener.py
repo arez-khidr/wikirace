@@ -155,37 +155,35 @@ def visualize_graph(start_node, path=None, max_nodes=None):
         #if the max nodes is not specified or an invalid number, then use the entire graph
         subgraph = graph
 
-    '''
     #initialize positions for all nodes
     position = {}
-    '''
 
-    #get the nodes in the math path and use spring layout for them
+    #get the nodes in the path and use spring layout for them
     #try spring layout
-    #change k so that the distance between nodes is more spread out
+    #change k so that the distance between nodes is more spread out (longer edges)
     #change scale so that the graph is zoomed out
-    position = nx.spring_layout(subgraph, k=10, iterations = 1000)
+    path_position = nx.spring_layout(subgraph, k=10, iterations = 1000)
 
-    '''
     #assign the positions of the paths first
     position.update(path_position)
 
-    
     #for each node in the path, tightly cluster its neighbors around it
     #for each node in the path
     for node in path:
-        #gather its neighbors
+        #gather its neighbors in a list
         neighbors = list(subgraph.neighbors(node))
-
-        #if there are neighbors, use circular layout to create neighbor cluster around path node
-        neighbor_position = nx.circular_layout(subgraph.subgraph(neighbors), scale=1.5)
-        for neighbor, position in neighbor_position.items():
-            neighbor_position[neighbor] = position + position[node]
-        
-        #update overall position dictionary with new neighbor positions
-        position.update(neighbor_position)
-    '''
-
+        #if there are neighbors
+        if neighbors:
+            #use circular layout to create neighbor cluster around path node
+            #set scale low so the clustering is tight
+            nonpath_position = nx.circular_layout(subgraph.subgraph(neighbors), scale=0.3)
+            #for the neighbor and position in the neighbor's positions (.items for dictionary key-value tuple pairs)
+            for neighbor, n_pos in nonpath_position.items():
+                #shift the neighbor's position by the position of the central path node
+                nonpath_position[neighbor] = n_pos + position[node]
+            #update overall position dictionary with new neighbor positions
+            position.update(nonpath_position)
+    
     #create Plotly lists for the x and y coords of the edges in the path
     edge_x_path = []
     edge_y_path = []
