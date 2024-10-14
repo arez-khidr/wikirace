@@ -371,7 +371,7 @@ def main(args):
     '''
     
     #A* traversal with selected heuristics and step limits
-    nodes_visited = traverse.astar(start_node, end_node, heuristics_with_steps)
+    nodes_visited = traverse.astar(start_node, end_node, heuristics_with_steps, args.speed)
     print(nodes_visited)
 
     # tfidf = heuristics.tfidf(start_node, end_node)
@@ -387,7 +387,7 @@ def main(args):
     # start_node.neighbors[19].neighbors[30].generateNeighbors()
 
     #Visualize the graph using the path and the start node
-    visualize_graph(start_node, nodes_visited, max_nodes=None)
+    visualize_graph(start_node, nodes_visited, max_nodes=1000)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Enter two wikipedia article titles to start and stop from! This will then find the shortest path")
@@ -399,6 +399,8 @@ if __name__ == "__main__":
                         help='comma separated list of heuristics in order')
     parser.add_argument("--steps", required=True, 
                         help='comma separated list of steps for each heuristic')
+    parser.add_argument("--speed", required = True, type = int, 
+                        help='Set to 1 to priotize speed, else the shortest path will be the priority')
     args = parser.parse_args()
     main(args)
 

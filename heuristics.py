@@ -72,11 +72,12 @@ def tfidf(current_node, target_node):
     top_3 = sorted_wsp[:3]
 
     #finds the words and their corresponding scores so we can see which one it chooses out of this list
-    print(f"TF-IDF values for top 3 words in current article {current_node.title}: ")
+    #print(f"TF-IDF values for top 3 words in current article {current_node.title}: ")
     for word, score in top_3:
         #if the score is over 0 (sparse matrix so many will just be equal to 0)
         if score > 0.0:
-            print(f"{word}: {score}")
+            pass
+            #print(f"{word}: {score}")
     
     #find the cosine similarity between the two tfidf vectors (current and target articles)
     similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
