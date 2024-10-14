@@ -76,7 +76,7 @@ def astar(start_node, target_node, heuristic):
     return -1
 '''
 
-def astar(start_node, target_node, heuristics_with_steps):
+def astar(start_node, target_node, heuristics_with_steps, speed):
     '''a star traversal algorithm for going through the graph
     The heuristic here is set by one that is passed in!'''
     #Heuristic is the method that we are passing in!
@@ -120,10 +120,13 @@ def astar(start_node, target_node, heuristics_with_steps):
             for neighbor_node in current_node.neighbors:
                 #The Neighbors are already instantiated wiki node objects we just need to change their cost and steps
                 #find the cost of the current heuristic by looking at the current heuristic
-                neighbor_node.cost = current_node.steps + 1 + current_heuristic(neighbor_node, target_node)
-                #print the neighbor cost
-                #print(neighbor_node.cost)
-                neighbor_node.steps = current_node.steps + 1
+                if speed == 1:
+                    neighbor_node.cost = 1 + current_heuristic(neighbor_node, target_node)
+                    neighbor_node.steps = current_node.steps + 1
+                else: 
+                    neighbor_node.cost = current_node.steps + 1 + current_heuristic(neighbor_node, target_node)
+                    neighbor_node.steps = current_node.steps + 1
+
                 if neighbor_node.title not in closedList or closedList[neighbor_node.title].cost > neighbor_node.cost: 
                     #Add the neighbor and its cost to the closed list
                     #Enqueu the neighbor into the open list
